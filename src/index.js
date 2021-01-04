@@ -6,12 +6,16 @@ import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './utils/global';
 import theme from './utils/theme';
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <>
-      <App />
-      <GlobalStyles />
-    </>
-  </ThemeProvider>,
+  <Router>
+    <ThemeProvider theme={theme}>
+      <>
+        <App />
+        <GlobalStyles />
+      </>
+    </ThemeProvider>
+  </Router>,
   document.getElementById('root')
 );
