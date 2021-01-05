@@ -53,7 +53,6 @@ const Menu = styled.div`
 
 export const SideDrawer = () => {
   const [isOpened, setIsOpened] = useState(false);
-  console.log(isOpened);
 
   return (
     <>
