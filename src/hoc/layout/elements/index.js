@@ -13,7 +13,7 @@ export const FormWrapper = styled.div`
   max-width: 50rem;
   margin: 0 auto;
   border-radius: 0.7rem;
-  padding: 5rem 7rem;
+  padding: 10rem 7rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,6 +22,8 @@ export const FormWrapper = styled.div`
 `;
 
 export const StyledForm = styled(Form)`
+  position: relative;
+  align-items: center;
   display: flex;
   width: 100%;
   flex-direction: column;

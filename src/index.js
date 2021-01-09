@@ -9,7 +9,7 @@ import theme from './utils/theme';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
-import store from './store';
+import { store } from './store';
 
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { rrfProps } from './store/index';

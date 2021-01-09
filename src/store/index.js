@@ -1,28 +1,39 @@
-import { compose, createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from './reducers';
-
 import firebase from '../Firebase/Firebase';
-import { createFirestoreInstance } from 'redux-firestore';
+
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import {
+  createFirestoreInstance,
+  reduxFirestore,
+  getFirestore,
+} from 'redux-firestore';
+import { getFirebase } from 'react-redux-firebase';
+
+import rootReducer from './reducers/index';
+
+import config from '../Firebase/Firebase';
 
 const composeEnhancers =
   process.env.NODE_ENV === 'development'
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
     : compose;
 
-const store = createStore(
+export const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(
+    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
+    reduxFirestore(firebase, config)
+  )
 );
+
+const rrfConfig = {
+  userProfile: 'users',
+  useFirestoreForProfile: true,
+};
 
 export const rrfProps = {
   firebase,
-  config: {
-    userProfile: 'users',
-    useFirestoreForProfile: true,
-  },
+  config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance,
 };
-
-export default store;
