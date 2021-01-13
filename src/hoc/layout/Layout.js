@@ -23,7 +23,7 @@ const Layout = ({ children, loggedIn }) => (
 );
 
 const mapStateToProps = ({ firebase }) => ({
-  loggedIn: firebase.auth ? true : null,
+  loggedIn: firebase.auth.uid ? true : null,
 });
 
 export default connect(mapStateToProps)(Layout);

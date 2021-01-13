@@ -12,7 +12,6 @@ import LogOut from "./containers/Auth/Logout/Logout";
 import { Route, Switch, Redirect } from "react-router";
 
 const App = ({ loggedIn }) => {
-  console.log(loggedIn);
   let routes;
 
   if (loggedIn) {

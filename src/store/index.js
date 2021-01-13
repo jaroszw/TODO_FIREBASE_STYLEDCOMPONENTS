@@ -29,7 +29,6 @@ export const store = createStore(
 const rrfConfig = {
   userProfile: "users",
   useFirestoreForProfile: true,
-  attachAuthIsReady: true,
 };
 
 export const rrfProps = {
