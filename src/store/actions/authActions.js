@@ -1,5 +1,6 @@
-import * as actions from './actionTypes';
+import * as actions from "./actionTypes";
 
+//Sign up
 export const signUp = (data) => async (
   dispatch,
   getState,
@@ -15,7 +16,7 @@ export const signUp = (data) => async (
       .auth()
       .createUserWithEmailAndPassword(data.email, data.password);
 
-    await firestore.collection('users').doc(res.user.uid).set({
+    await firestore.collection("users").doc(res.user.uid).set({
       firstName: data.firstName,
       lastName: data.lastName,
     });
@@ -28,4 +29,14 @@ export const signUp = (data) => async (
   }
 
   dispatch({ type: actions.AUTH_END });
+};
+
+//LogOut action creator
+export const signOut = () => async (dispatch, getState, { getFirebase }) => {
+  const firebase = getFirebase();
+  try {
+    await firebase.auth().signOut();
+  } catch (err) {
+    console.log(err.message);
+  }
 };

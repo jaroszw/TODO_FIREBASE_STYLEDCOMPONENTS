@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 //components
-import Logo from '../../Logo/Logo';
-import NavItems from '../NavItems/NavItems';
-import Hamburger from './Hamburger/Hamburger';
+import Logo from "../../Logo/Logo";
+import NavItems from "../NavItems/NavItems";
+import Hamburger from "./Hamburger/Hamburger";
 
 const FixedWrapper = styled.div`
   position: fixed;
@@ -34,8 +34,8 @@ const Menu = styled.div`
   width: 100%;
   background-color: var(--color-mainDark);
   height: 100vh;
-  visibility: ${(props) => (props.opened ? 'visible' : 'hidden')};
-  transform: translateY(${(props) => (props.opened ? '0%' : '-100%')});
+  visibility: ${(props) => (props.opened ? "visible" : "hidden")};
+  transform: translateY(${(props) => (props.opened ? "0%" : "-100%")});
   position: fixed;
   margin-top: 6rem;
   top: 0;
@@ -51,7 +51,7 @@ const Menu = styled.div`
   }
 `;
 
-export const SideDrawer = () => {
+export const SideDrawer = ({ loggedIn }) => {
   const [isOpened, setIsOpened] = useState(false);
 
   return (
@@ -63,7 +63,11 @@ export const SideDrawer = () => {
         </Wrapper>
       </FixedWrapper>
       <Menu opened={isOpened}>
-        <NavItems mobile clicked={() => setIsOpened(false)} />
+        <NavItems
+          loggedIn={loggedIn}
+          mobile
+          clicked={() => setIsOpened(false)}
+        />
       </Menu>
     </>
   );

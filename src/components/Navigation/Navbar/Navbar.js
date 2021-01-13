@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { Container } from '../../../hoc/layout/elements';
+import { Container } from "../../../hoc/layout/elements";
 
 //components
-import Logo from '../../Logo/Logo';
-import NavItems from '../NavItems/NavItems';
+import Logo from "../../Logo/Logo";
+import NavItems from "../NavItems/NavItems";
 
 const FixedWrapper = styled.div`
   position: fixed;
@@ -27,13 +27,13 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-export const Navbar = () => {
+export const Navbar = ({ loggedIn }) => {
   return (
     <FixedWrapper>
       <Container>
         <Wrapper>
           <Logo />
-          <NavItems />
+          <NavItems loggedIn={loggedIn} />
         </Wrapper>
       </Container>
     </FixedWrapper>
