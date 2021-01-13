@@ -13,6 +13,7 @@ const StyledButton = styled.button`
   background-color: var(--color-mainLighter);
   border: none;
   transition: all 0.2s;
+  margin: 1.5rem 0 2rem 0;
 
   &:hover {
     transform: translateY(-3px);

@@ -1,4 +1,4 @@
-import * as actions from "./actionTypes";
+import * as actions from './actionTypes';
 
 //Sign up
 export const signUp = (data) => async (
@@ -16,7 +16,20 @@ export const signUp = (data) => async (
       .auth()
       .createUserWithEmailAndPassword(data.email, data.password);
 
-    await firestore.collection("users").doc(res.user.uid).set({
+    const actionCodeSettings = {
+      url: 'http://localhost:3000/',
+      handleCodeInApp: true,
+    };
+
+    const user = firebase.auth().currentUser;
+    await user
+      .sendEmailVerification(actionCodeSettings)
+      .then((data) => {})
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+    await firestore.collection('users').doc(res.user.uid).set({
       firstName: data.firstName,
       lastName: data.lastName,
     });
@@ -43,15 +56,47 @@ export const signOut = () => async (dispatch, getState, { getFirebase }) => {
 
 //Log in action
 
-export const signIn = (data) => async (dispatch, getState, getFirebase) => {
+export const signIn = (data) => async (dispatch, getState, { getFirebase }) => {
+  console.log(data);
   const firebase = getFirebase();
   dispatch({ type: actions.AUTH_START });
+  console.log('After Auth_Starts');
 
   try {
-    await firebase.auth.signInWithEmailAndPassword(data.email, data.password);
+    await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
     dispatch({ type: actions.AUTH_SUCCESS });
   } catch (err) {
     dispatch({ type: actions.AUTH_FAIL, payload: err.message });
   }
   dispatch({ type: actions.AUTH_END });
+};
+
+// Clean up messages
+
+export const clean = () => ({
+  type: actions.CLEAN_UP,
+});
+
+//Verify email acction = to be refactor to separate helper action
+export const verifyEmail = () => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  console.log('action starts');
+
+  const actionCodeSettings = {
+    url: 'http://localhost:3000/',
+    handleCodeInApp: true,
+  };
+
+  const firebase = getFirebase();
+  dispatch({ type: actions.VERIFY_START });
+  try {
+    const user = firebase.auth().currentUser;
+    await user.sendEmailVerification(actionCodeSettings);
+    dispatch({ type: actions.VERIFY_SUCCESS });
+  } catch (err) {
+    dispatch({ type: actions.VERIFY_FAIL, payload: err.message });
+  }
 };
