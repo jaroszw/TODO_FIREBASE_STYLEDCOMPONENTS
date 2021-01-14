@@ -1,16 +1,17 @@
-import React from 'react';
-import Layout from './hoc/layout/Layout';
-import { connect } from 'react-redux';
+import React from "react";
+import Layout from "./hoc/layout/Layout";
+import { connect } from "react-redux";
 
 //Rout components
-import Home from './containers/Home/Home';
-import Todos from './containers/Todos/Todos';
-import Login from './containers/Auth/Login/Login';
-import SignUp from './containers/Auth/SingUp/SingUp';
-import LogOut from './containers/Auth/Logout/Logout';
-import VerifyEmail from './containers/Auth/VerifiedEmail/VerifiedEmail';
+import Home from "./containers/Home/Home";
+import Todos from "./containers/Todos/Todos";
+import Login from "./containers/Auth/Login/Login";
+import SignUp from "./containers/Auth/SingUp/SingUp";
+import LogOut from "./containers/Auth/Logout/Logout";
+import VerifyEmail from "./containers/Auth/VerifiedEmail/VerifiedEmail";
+import RecoverPassword from "./containers/Auth/RecoverPassword/RecoverPassword";
 
-import { Route, Switch, Redirect } from 'react-router';
+import { Route, Switch, Redirect } from "react-router";
 
 const App = ({ loggedIn, emailVerified }) => {
   let routes;
@@ -36,6 +37,7 @@ const App = ({ loggedIn, emailVerified }) => {
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/recovery" component={RecoverPassword} />
         <Redirect to="/login" />
       </Switch>
     );

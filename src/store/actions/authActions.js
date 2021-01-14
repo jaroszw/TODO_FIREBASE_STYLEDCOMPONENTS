@@ -1,4 +1,4 @@
-import * as actions from './actionTypes';
+import * as actions from "./actionTypes";
 
 //Sign up
 export const signUp = (data) => async (
@@ -17,7 +17,7 @@ export const signUp = (data) => async (
       .createUserWithEmailAndPassword(data.email, data.password);
 
     const actionCodeSettings = {
-      url: 'http://localhost:3000/',
+      url: "http://localhost:3000/",
       handleCodeInApp: true,
     };
 
@@ -29,7 +29,7 @@ export const signUp = (data) => async (
         console.log(err.message);
       });
 
-    await firestore.collection('users').doc(res.user.uid).set({
+    await firestore.collection("users").doc(res.user.uid).set({
       firstName: data.firstName,
       lastName: data.lastName,
     });
@@ -60,7 +60,7 @@ export const signIn = (data) => async (dispatch, getState, { getFirebase }) => {
   console.log(data);
   const firebase = getFirebase();
   dispatch({ type: actions.AUTH_START });
-  console.log('After Auth_Starts');
+  console.log("After Auth_Starts");
 
   try {
     await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
@@ -83,10 +83,8 @@ export const verifyEmail = () => async (
   getState,
   { getFirebase }
 ) => {
-  console.log('action starts');
-
   const actionCodeSettings = {
-    url: 'http://localhost:3000/',
+    url: "http://localhost:3000/",
     handleCodeInApp: true,
   };
 
@@ -98,5 +96,28 @@ export const verifyEmail = () => async (
     dispatch({ type: actions.VERIFY_SUCCESS });
   } catch (err) {
     dispatch({ type: actions.VERIFY_FAIL, payload: err.message });
+  }
+};
+//Send recovery password
+
+export const recoverPassword = ({ email }) => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  const firebase = getFirebase();
+  const auth = firebase.auth();
+  dispatch({ type: actions.RECOVERY_START });
+
+  const actionCodeSettings = {
+    url: "http://localhost:3000/login",
+    handleCodeInApp: true,
+  };
+
+  try {
+    await auth.sendPasswordResetEmail(email, actionCodeSettings);
+    dispatch({ type: actions.RECOVERY_SUCCESS });
+  } catch (err) {
+    dispatch({ type: actions.RECOVERY_FAIL, payload: err.message });
   }
 };

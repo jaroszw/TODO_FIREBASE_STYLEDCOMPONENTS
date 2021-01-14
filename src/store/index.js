@@ -8,6 +8,7 @@ import {
   getFirestore,
 } from "redux-firestore";
 import { getFirebase } from "react-redux-firebase";
+import logger from "redux-logger";
 
 import rootReducer from "./reducers/index";
 
@@ -21,7 +22,10 @@ const composeEnhancers =
 export const store = createStore(
   rootReducer,
   composeEnhancers(
-    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
+    applyMiddleware(
+      logger,
+      thunk.withExtraArgument({ getFirestore, getFirebase })
+    ),
     reduxFirestore(firebase, config)
   )
 );

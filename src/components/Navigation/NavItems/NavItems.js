@@ -1,6 +1,6 @@
-import React from 'react';
-import NavItem from './NavItem/NavItem';
-import styled from 'styled-components';
+import React from "react";
+import NavItem from "./NavItem/NavItem";
+import styled from "styled-components";
 
 const Nav = styled.nav`
   display: flex;
@@ -11,15 +11,11 @@ const Ul = styled.ul`
   align-items: center;
   height: 100%;
 
-  flex-direction: ${(props) => (props.mobile ? 'column' : null)};
+  flex-direction: ${(props) => (props.mobile ? "column" : null)};
 `;
 
 const NavItems = ({ mobile, clicked, loggedIn, signOut }) => {
   let links;
-
-  const hdnaleTets = () => {
-    console.log('Działamy');
-  };
 
   if (loggedIn) {
     links = (
@@ -40,6 +36,9 @@ const NavItems = ({ mobile, clicked, loggedIn, signOut }) => {
         </NavItem>
         <NavItem clicked={clicked} mobile={mobile} link="/signup">
           Sign Up
+        </NavItem>
+        <NavItem clicked={clicked} mobile={mobile} link="/recovery">
+          Recovery
         </NavItem>
       </Ul>
     );
