@@ -11,10 +11,32 @@ const INITIAL_STATE = {
     error: null,
     loading: false,
   },
+  profileEdit: {
+    error: null,
+    loading: false,
+  },
 };
 
 const authReducer = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
+    case actions.CLEAN_UP:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        verifyEmail: { ...state.verifyEmail, error: null, loading: false },
+        recoverPassword: {
+          ...state.recoverPassword,
+          error: null,
+          loading: false,
+        },
+        profileEdit: {
+          ...state.profileEdit,
+          error: null,
+          loading: false,
+        },
+      };
+
     case actions.AUTH_START:
       return {
         ...state,
@@ -43,19 +65,6 @@ const authReducer = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         error: false,
-      };
-
-    case actions.CLEAN_UP:
-      return {
-        ...state,
-        error: null,
-        loading: false,
-        verifyEmail: { ...state.verifyEmail, error: null, loading: false },
-        recoverPassword: {
-          ...state.recoverPassword,
-          error: null,
-          loading: false,
-        },
       };
 
     case actions.VERIFY_START:
@@ -102,6 +111,35 @@ const authReducer = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         recoverPassword: {
           ...state.recoverPassword,
+          loading: false,
+          error: payload,
+        },
+      };
+
+    case actions.PROFILE_EDIT_START:
+      return {
+        ...state,
+        profileEdit: {
+          ...state.profileEdit,
+          loading: true,
+        },
+      };
+
+    case actions.PROFILE_EDIT_SUCCESS:
+      return {
+        ...state,
+        profileEdit: {
+          ...state.profileEdit,
+          loading: false,
+          error: false,
+        },
+      };
+
+    case actions.PROFILE_EDIT_FAIL:
+      return {
+        ...state,
+        profileEdit: {
+          ...state.profileEdit,
           loading: false,
           error: payload,
         },

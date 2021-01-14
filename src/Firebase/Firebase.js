@@ -3,7 +3,6 @@ import "firebase/firestore";
 import "firebase/auth";
 
 const config = {
-  apiKey: "",
   authDomain: "todo-app-firebase-2e314.firebaseapp.com",
   projectId: "todo-app-firebase-2e314",
   storageBucket: "todo-app-firebase-2e314.appspot.com",

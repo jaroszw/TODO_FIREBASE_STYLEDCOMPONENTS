@@ -10,6 +10,7 @@ import SignUp from "./containers/Auth/SingUp/SingUp";
 import LogOut from "./containers/Auth/Logout/Logout";
 import VerifyEmail from "./containers/Auth/VerifiedEmail/VerifiedEmail";
 import RecoverPassword from "./containers/Auth/RecoverPassword/RecoverPassword";
+import Profile from "./containers/Auth/Profile/Profile";
 
 import { Route, Switch, Redirect } from "react-router";
 
@@ -28,6 +29,7 @@ const App = ({ loggedIn, emailVerified }) => {
       <Switch>
         <Route exact path="/" component={Todos} />
         <Route exact path="/logout" component={LogOut} />
+        <Route exact path="/profile" component={Profile} />
         <Redirect to="/" />
       </Switch>
     );

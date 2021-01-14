@@ -121,3 +121,33 @@ export const recoverPassword = ({ email }) => async (
     dispatch({ type: actions.RECOVERY_FAIL, payload: err.message });
   }
 };
+
+export const editProfile = (data) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  const user = firebase.auth().currentUser;
+  const { uid: userId, email: userEmail } = getState().firebase.auth;
+  dispatch({ type: actions.PROFILE_EDIT_START });
+
+  try {
+    if (data.email !== userEmail) {
+      await user.updateEmail(data.email);
+    }
+
+    await firestore.collection("users").doc(userId).set({
+      firstName: data.firstName,
+      lastName: data.lastName,
+    });
+
+    if (data.password.length > 0) {
+      await user.updatePassword(data.password);
+    }
+    dispatch({ type: actions.PROFILE_EDIT_SUCCESS });
+  } catch (err) {
+    dispatch({ type: actions.PROFILE_EDIT_FAIL, payload: err.message });
+  }
+};
