@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const LogoWrapper = styled.div`
   color: var(--color-white);
@@ -11,8 +12,17 @@ const LogoWrapper = styled.div`
   padding: 1rem;
 `;
 
+const StyledLink = styled(Link)`
+  color: white;
+  cursor: pointer;
+`;
+
 const Logo = () => {
-  return <LogoWrapper>Productivity</LogoWrapper>;
+  return (
+    <LogoWrapper>
+      <StyledLink to="/">Productivity</StyledLink>
+    </LogoWrapper>
+  );
 };
 
 export default Logo;

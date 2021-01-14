@@ -41,7 +41,7 @@ const VerifiedEmail = ({ sendVerification, error, loading, cleanUp }) => {
           disabled={loading}
           onClick={() => sendVerification()}
         >
-          Re-send verification email
+          Send verification email
         </Button>
         <MessageWrapper>
           <Message error show={error}>

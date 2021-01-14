@@ -1,4 +1,4 @@
-import * as actions from "./actionTypes";
+import * as actions from './actionTypes';
 
 //Sign up
 export const signUp = (data) => async (
@@ -17,7 +17,7 @@ export const signUp = (data) => async (
       .createUserWithEmailAndPassword(data.email, data.password);
 
     const actionCodeSettings = {
-      url: "http://localhost:3000/",
+      url: 'http://localhost:3000/',
       handleCodeInApp: true,
     };
 
@@ -29,7 +29,7 @@ export const signUp = (data) => async (
         console.log(err.message);
       });
 
-    await firestore.collection("users").doc(res.user.uid).set({
+    await firestore.collection('users').doc(res.user.uid).set({
       firstName: data.firstName,
       lastName: data.lastName,
     });
@@ -60,7 +60,7 @@ export const signIn = (data) => async (dispatch, getState, { getFirebase }) => {
   console.log(data);
   const firebase = getFirebase();
   dispatch({ type: actions.AUTH_START });
-  console.log("After Auth_Starts");
+  console.log('After Auth_Starts');
 
   try {
     await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
@@ -84,7 +84,7 @@ export const verifyEmail = () => async (
   { getFirebase }
 ) => {
   const actionCodeSettings = {
-    url: "http://localhost:3000/",
+    url: 'http://localhost:3000/',
     handleCodeInApp: true,
   };
 
@@ -110,7 +110,7 @@ export const recoverPassword = ({ email }) => async (
   dispatch({ type: actions.RECOVERY_START });
 
   const actionCodeSettings = {
-    url: "http://localhost:3000/login",
+    url: 'http://localhost:3000/login',
     handleCodeInApp: true,
   };
 
@@ -138,7 +138,7 @@ export const editProfile = (data) => async (
       await user.updateEmail(data.email);
     }
 
-    await firestore.collection("users").doc(userId).set({
+    await firestore.collection('users').doc(userId).set({
       firstName: data.firstName,
       lastName: data.lastName,
     });
@@ -149,5 +149,26 @@ export const editProfile = (data) => async (
     dispatch({ type: actions.PROFILE_EDIT_SUCCESS });
   } catch (err) {
     dispatch({ type: actions.PROFILE_EDIT_FAIL, payload: err.message });
+  }
+};
+
+export const deleteProfile = () => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  const user = firebase.auth().currentUser;
+  const userId = getState().firebase.auth.uid;
+  console.log(userId);
+  dispatch({ type: actions.PROFILE_DELETE_START });
+
+  try {
+    await firestore.collection('users').doc(userId).delete();
+    await user.delete();
+  } catch (err) {
+    dispatch({ type: actions.PROFILE_DELETE_FAIL, payload: err.message });
+    console.log(err);
   }
 };

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import * as Yup from "yup";
-import styled from "styled-components";
-import * as actions from "../../../store/actions/authActions";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import * as Yup from 'yup';
+import styled from 'styled-components';
+import * as actions from '../../../store/actions/authActions';
 
-import { Formik, Field } from "formik";
-import { FormWrapper, StyledForm } from "../../../hoc/layout/elements";
+import { Formik, Field } from 'formik';
+import { FormWrapper, StyledForm } from '../../../hoc/layout/elements';
 
-import Message from "../../../components/UI/Message/Message";
-import Headings from "../../../components/UI/Headings/Heading";
-import Input from "../../../components/UI/Forms/Input/Input";
-import Button from "../../../components/UI/Forms/Button/Button";
-import Modal from "../../../components/UI/Modal/Modal";
+import Message from '../../../components/UI/Message/Message';
+import Headings from '../../../components/UI/Headings/Heading';
+import Input from '../../../components/UI/Forms/Input/Input';
+import Button from '../../../components/UI/Forms/Button/Button';
+import Modal from '../../../components/UI/Modal/Modal';
 
 const MessageWrapper = styled.div`
   position: absolute;
@@ -34,21 +34,28 @@ const DeleteWrapper = styled.div`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  max-width: 30rem;
+  justify-content: space-around;
+`;
+
 const ProfileSchema = Yup.object().shape({
   firstName: Yup.string()
-    .required("Your first name is required.")
-    .min(3, "Too short.")
-    .max(25, "Too long."),
+    .required('Your first name is required.')
+    .min(3, 'Too short.')
+    .max(25, 'Too long.'),
   lastName: Yup.string()
-    .required("Your last name is required.")
-    .min(3, "Too short.")
-    .max(25, "Too long."),
+    .required('Your last name is required.')
+    .min(3, 'Too short.')
+    .max(25, 'Too long.'),
   email: Yup.string()
-    .email("Invalid email.")
-    .required("The email is required."),
-  password: Yup.string().min(6, "The password is too short."),
+    .email('Invalid email.')
+    .required('The email is required.'),
+  password: Yup.string().min(6, 'The password is too short.'),
   confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
+    [Yup.ref('password'), null],
     `Pssword doesn't match`
   ),
 });
@@ -59,7 +66,16 @@ const ProfileSchema = Yup.object().shape({
 //       .oneOf([Yup.ref("password"), null], `Password doesn't match`),
 //   }),
 
-const Profile = ({ firebase, editProfile, error, loading, cleanUp }) => {
+const Profile = ({
+  firebase,
+  editProfile,
+  error,
+  loading,
+  cleanUp,
+  deleteUser,
+  loadingDelete,
+  errorDelete,
+}) => {
   useEffect(() => {
     cleanUp();
   }, [cleanUp]);
@@ -75,8 +91,8 @@ const Profile = ({ firebase, editProfile, error, loading, cleanUp }) => {
           firstName: firebase.profile.firstName,
           lastName: firebase.profile.lastName,
           email: firebase.auth.email,
-          password: "",
-          confirmPassword: "",
+          password: '',
+          confirmPassword: '',
         }}
         validationSchema={ProfileSchema}
         onSubmit={async (values, { setSubmitting }) => {
@@ -125,7 +141,7 @@ const Profile = ({ firebase, editProfile, error, loading, cleanUp }) => {
               />
               <Button
                 disabled={!isValid || isSubmitting}
-                loading={loading ? "Edditing data..." : null}
+                loading={loading ? 'Edditing data...' : null}
                 type="submit"
               >
                 Edit
@@ -141,7 +157,7 @@ const Profile = ({ firebase, editProfile, error, loading, cleanUp }) => {
                 </Message>
               </MessageWrapper>
               <DeleteWrapper
-                style={{ zIndex: "80" }}
+                style={{ zIndex: '80' }}
                 onClick={() => setModalOpened(true)}
               >
                 Delete my account
@@ -151,7 +167,31 @@ const Profile = ({ firebase, editProfile, error, loading, cleanUp }) => {
         )}
       </Formik>
       <Modal opened={modalOpened} close={() => setModalOpened(false)}>
-        This is a Modal
+        <Headings noMargin size="h1" color="white">
+          Delete your account
+        </Headings>
+        <Headings bold size="h4" color="white">
+          Do you really want to delete your account
+        </Headings>
+        <ButtonWrapper>
+          <Button
+            disabled={loadingDelete}
+            loading={loadingDelete ? 'Deleting...' : null}
+            contain
+            color="red"
+            onClick={() => deleteUser()}
+          >
+            Delete
+          </Button>
+          <Button color="main" contain onClick={() => setModalOpened(false)}>
+            Cancel
+          </Button>
+        </ButtonWrapper>
+        <MessageWrapper>
+          <Message error show={errorDelete}>
+            {errorDelete}
+          </Message>
+        </MessageWrapper>
       </Modal>
     </>
   );
@@ -161,11 +201,14 @@ const mapStateToProps = ({ auth, firebase }) => ({
   firebase,
   error: auth.profileEdit.error,
   loading: auth.profileEdit.loading,
+  loadingDelete: auth.deleteUser.loading,
+  errorDelete: auth.deleteUser.error,
 });
 
 const mapDispatchToProps = {
   editProfile: actions.editProfile,
   cleanUp: actions.clean,
+  deleteUser: actions.deleteProfile,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
