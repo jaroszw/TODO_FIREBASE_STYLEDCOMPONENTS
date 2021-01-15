@@ -1,4 +1,4 @@
-import * as actions from '../actions/actionTypes';
+import * as actions from "../actions/actionTypes";
 
 const initialState = {
   error: null,
@@ -149,7 +149,7 @@ const cleanUp = (state) => {
   };
 };
 
-const rootReducer = (state = initialState, { type, payload }) => {
+const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case actions.CLEAN_UP:
       return cleanUp(state);
@@ -204,4 +204,4 @@ const rootReducer = (state = initialState, { type, payload }) => {
   }
 };
 
-export default rootReducer;
+export default authReducer;

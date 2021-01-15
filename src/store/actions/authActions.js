@@ -1,4 +1,4 @@
-import * as actions from './actionTypes';
+import * as actions from "./actionTypes";
 
 //Sign up
 export const signUp = (data) => async (
@@ -17,7 +17,7 @@ export const signUp = (data) => async (
       .createUserWithEmailAndPassword(data.email, data.password);
 
     const actionCodeSettings = {
-      url: 'http://localhost:3000/',
+      url: "http://localhost:3000/",
       handleCodeInApp: true,
     };
 
@@ -29,7 +29,7 @@ export const signUp = (data) => async (
         console.log(err.message);
       });
 
-    await firestore.collection('users').doc(res.user.uid).set({
+    await firestore.collection("users").doc(res.user.uid).set({
       firstName: data.firstName,
       lastName: data.lastName,
     });
@@ -55,12 +55,11 @@ export const signOut = () => async (dispatch, getState, { getFirebase }) => {
 };
 
 //Log in action
-
 export const signIn = (data) => async (dispatch, getState, { getFirebase }) => {
   console.log(data);
   const firebase = getFirebase();
   dispatch({ type: actions.AUTH_START });
-  console.log('After Auth_Starts');
+  console.log("After Auth_Starts");
 
   try {
     await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
@@ -72,7 +71,6 @@ export const signIn = (data) => async (dispatch, getState, { getFirebase }) => {
 };
 
 // Clean up messages
-
 export const clean = () => ({
   type: actions.CLEAN_UP,
 });
@@ -84,7 +82,7 @@ export const verifyEmail = () => async (
   { getFirebase }
 ) => {
   const actionCodeSettings = {
-    url: 'http://localhost:3000/',
+    url: "http://localhost:3000/",
     handleCodeInApp: true,
   };
 
@@ -110,7 +108,7 @@ export const recoverPassword = ({ email }) => async (
   dispatch({ type: actions.RECOVERY_START });
 
   const actionCodeSettings = {
-    url: 'http://localhost:3000/login',
+    url: "http://localhost:3000/login",
     handleCodeInApp: true,
   };
 
@@ -138,7 +136,7 @@ export const editProfile = (data) => async (
       await user.updateEmail(data.email);
     }
 
-    await firestore.collection('users').doc(userId).set({
+    await firestore.collection("users").doc(userId).set({
       firstName: data.firstName,
       lastName: data.lastName,
     });
@@ -165,7 +163,7 @@ export const deleteProfile = () => async (
   dispatch({ type: actions.PROFILE_DELETE_START });
 
   try {
-    await firestore.collection('users').doc(userId).delete();
+    await firestore.collection("users").doc(userId).delete();
     await user.delete();
   } catch (err) {
     dispatch({ type: actions.PROFILE_DELETE_FAIL, payload: err.message });
