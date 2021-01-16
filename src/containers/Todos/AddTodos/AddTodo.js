@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Formik, Field } from "formik";
-import * as Yup from "yup";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
 
-import Headings from "../../../components/UI/Headings/Heading";
-import Button from "../../../components/UI/Forms/Button/Button";
-import Modal from "../../../components/UI/Modal/Modal";
-import Input from "../../../components/UI/Forms/Input/Input";
-import Message from "../../../components/UI/Message/Message";
-import { StyledForm } from "../../../hoc/layout/elements";
+import Headings from '../../../components/UI/Headings/Heading';
+import Button from '../../../components/UI/Forms/Button/Button';
+import Modal from '../../../components/UI/Modal/Modal';
+import Input from '../../../components/UI/Forms/Input/Input';
+import Message from '../../../components/UI/Message/Message';
+import { StyledForm } from '../../../hoc/layout/elements';
 
-import * as actions from "../../../store/actions";
-import { connect } from "react-redux";
+import * as actions from '../../../store/actions';
+import { connect } from 'react-redux';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const MessageWrapper = styled.div`
 `;
 
 const TodoSchema = Yup.object().shape({
-  todo: Yup.string().required("The ToDo is required").min(4, "To short"),
+  todo: Yup.string().required('The ToDo is required').min(4, 'To short'),
 });
 
 const AddTodo = ({ addToDo, error, loading }) => {
@@ -47,16 +47,17 @@ const AddTodo = ({ addToDo, error, loading }) => {
 
         <Formik
           initialValues={{
-            todo: "",
+            todo: '',
           }}
           validationSchema={TodoSchema}
-          onSubmit={async (values, { setSubmitting }) => {
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
             const res = await addToDo(values);
             console.log(res);
             if (res) {
               setIsOpened(false);
             }
             setSubmitting(false);
+            resetForm();
           }}
         >
           {({ isSubmitting, isValid }) => (
@@ -75,7 +76,7 @@ const AddTodo = ({ addToDo, error, loading }) => {
               <ButtonWrapper>
                 <Button
                   disabled={!isValid || isSubmitting}
-                  loading={loading ? "Adding..." : null}
+                  loading={loading ? 'Adding...' : null}
                   contain
                   color="main"
                   type="submit"
