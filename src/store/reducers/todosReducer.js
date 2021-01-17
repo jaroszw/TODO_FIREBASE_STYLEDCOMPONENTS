@@ -1,8 +1,12 @@
-import * as actions from "../actions/actionTypes";
+import * as actions from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   error: null,
   loading: false,
+  deleteTodos: {
+    error: null,
+    loading: false,
+  },
 };
 
 const todoReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -25,6 +29,21 @@ const todoReducer = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         loading: false,
         error: payload,
+      };
+    case actions.DELETE_TODO_START:
+      return {
+        ...state,
+        deleteTodos: { ...state.deleteTodos, loading: true },
+      };
+    case actions.DELETE_TODO_SUCCESS:
+      return {
+        ...state,
+        deleteTodos: { ...state.deleteTodos, loading: false, error: false },
+      };
+    case actions.DELETE_TODO_FAIL:
+      return {
+        ...state,
+        deleteTodos: { ...state.deleteTodos, loading: false, error: payload },
       };
   }
 };

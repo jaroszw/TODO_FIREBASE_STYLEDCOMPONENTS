@@ -7,6 +7,6 @@ export {
   recoverPassword,
   editProfile,
   deleteProfile,
-} from "./authActions";
+} from './authActions';
 
-export { addTodo } from "./todoActions";
+export { addTodo, deleteTodo } from './todoActions';

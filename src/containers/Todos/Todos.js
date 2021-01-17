@@ -44,7 +44,10 @@ const Todos = ({ todos, requesting, requested, userId }) => {
         <Loader isWhite />;
       </ContentWrapper>
     );
-  } else if (!todos[userId] && requested[`todos/${userId}`]) {
+  } else if (
+    (!todos[userId] && requested[`todos/${userId}`]) ||
+    todos[userId].todos.length === 0
+  ) {
     respons = (
       <Headings color="white" bold size="h1">
         No todos to provide
