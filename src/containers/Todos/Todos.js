@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Headings from '../../components/UI/Headings/Heading';
 import { Container } from '../../hoc/layout/elements';
-import AddTodo from './AddTodos/AddTodo';
+import InputTodo from './InputTodo/InputTodo';
 import Todo from './Todo/Todo';
 import Loader from '../../components/UI/Loader/Loader';
+import Button from '../../components/UI/Forms/Button/Button';
 
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
@@ -35,7 +36,8 @@ const ContentWrapper = styled.div`
   align-items: center;
 `;
 
-const Todos = ({ todos, requesting, requested, userId }) => {
+const Todos = ({ todos, requested, userId }) => {
+  const [isAdding, setisAdding] = useState(false);
   let respons;
 
   if (!todos) {
@@ -56,9 +58,12 @@ const Todos = ({ todos, requesting, requested, userId }) => {
   } else {
     respons = (
       <ContentWrapper>
-        {todos[userId].todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} />
-        ))}
+        {todos[userId].todos
+          .slice(0)
+          .reverse()
+          .map((todo) => (
+            <Todo key={todo.id} todo={todo} />
+          ))}
       </ContentWrapper>
     );
   }
@@ -71,7 +76,10 @@ const Todos = ({ todos, requesting, requested, userId }) => {
             My TODO's
           </Headings>
           <Headings size="h3" color="white" bold></Headings>
-          <AddTodo />
+          <Button contain color="main" onClick={() => setisAdding(true)}>
+            Add ToDo
+          </Button>
+          <InputTodo opened={isAdding} close={() => setisAdding(false)} />
           {respons}
         </InnerWrapper>
       </Container>

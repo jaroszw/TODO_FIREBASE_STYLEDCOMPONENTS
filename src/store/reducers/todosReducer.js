@@ -30,6 +30,11 @@ const todoReducer = (state = INITIAL_STATE, { type, payload }) => {
         loading: false,
         error: payload,
       };
+    case actions.ADD_CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
     case actions.DELETE_TODO_START:
       return {
         ...state,

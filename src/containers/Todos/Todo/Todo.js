@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import DeleteTodo from './DeleteTodo/DeleteTodo';
+import InputTodo from '../InputTodo/InputTodo';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -40,11 +41,16 @@ const deleteStyles = {
 
 const Todo = ({ todo }) => {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEdditing, setisEdditing] = useState(false);
   return (
     <Wrapper>
       {todo.todo}
       <Controls>
-        <i className="far fa-edit" style={editStyles}></i>
+        <i
+          onClick={() => setisEdditing(true)}
+          className="far fa-edit"
+          style={editStyles}
+        ></i>
         <i
           className="fas fa-trash-alt"
           style={deleteStyles}
@@ -55,6 +61,11 @@ const Todo = ({ todo }) => {
         todo={todo}
         deleting={isDeleting}
         close={() => setIsDeleting(false)}
+      />
+      <InputTodo
+        edit={todo}
+        opened={isEdditing}
+        close={() => setisEdditing(false)}
       />
     </Wrapper>
   );
