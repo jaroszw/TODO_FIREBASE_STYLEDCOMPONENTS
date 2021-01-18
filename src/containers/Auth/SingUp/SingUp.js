@@ -12,6 +12,16 @@ import Button from "../../../components/UI/Forms/Button/Button";
 import Headings from "../../../components/UI/Headings/Heading";
 import Message from "../../../components/UI/Message/Message";
 
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 6rem);
+  background-color: var(--color-mainLight);
+  padding: 5rem 0;
+`;
+
 const MessageWrapper = styled.div`
   position: absolute;
   bottom: 0;
@@ -43,75 +53,77 @@ const SignUp = ({ signUp, loading, error, cleanup }) => {
   }, [cleanup]);
 
   return (
-    <Formik
-      initialValues={{
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      }}
-      validationSchema={SignUpSchema}
-      onSubmit={async (values, { setSubmitting }) => {
-        await signUp(values);
-        setSubmitting(false);
-      }}
-    >
-      {({ isSubmitting, isValid }) => (
-        <FormWrapper>
-          <Headings noMargin size="h1" color="white">
-            Sign up for an account
-          </Headings>
-          <Headings bold size="h4" color="white">
-            Fill in your details to register your new account
-          </Headings>
-          <StyledForm>
-            <Field
-              type="text"
-              name="firstName"
-              placeholder="Your first name..."
-              component={Input}
-            />
-            <Field
-              type="text"
-              name="lastName"
-              placeholder="Your last name..."
-              component={Input}
-            />
-            <Field
-              type="email"
-              name="email"
-              placeholder="Your email..."
-              component={Input}
-            />
-            <Field
-              type="password"
-              name="password"
-              placeholder="Your password..."
-              component={Input}
-            />
-            <Field
-              type="password"
-              name="confirmPassword"
-              placeholder="Re-type your password..."
-              component={Input}
-            />
-            <Button
-              disabled={!isValid || isSubmitting}
-              loading={loading ? "In progress..." : null}
-              type="submit"
-            >
-              Sign up
-            </Button>
-            <MessageWrapper>
-              <Message error show={error}>
-                {error}
-              </Message>
-            </MessageWrapper>
-          </StyledForm>
-        </FormWrapper>
-      )}
-    </Formik>
+    <Wrapper>
+      <Formik
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        }}
+        validationSchema={SignUpSchema}
+        onSubmit={async (values, { setSubmitting }) => {
+          await signUp(values);
+          setSubmitting(false);
+        }}
+      >
+        {({ isSubmitting, isValid }) => (
+          <FormWrapper>
+            <Headings noMargin size="h1" color="white">
+              Sign up for an account
+            </Headings>
+            <Headings bold size="h4" color="white">
+              Fill in your details to register your new account
+            </Headings>
+            <StyledForm>
+              <Field
+                type="text"
+                name="firstName"
+                placeholder="Your first name..."
+                component={Input}
+              />
+              <Field
+                type="text"
+                name="lastName"
+                placeholder="Your last name..."
+                component={Input}
+              />
+              <Field
+                type="email"
+                name="email"
+                placeholder="Your email..."
+                component={Input}
+              />
+              <Field
+                type="password"
+                name="password"
+                placeholder="Your password..."
+                component={Input}
+              />
+              <Field
+                type="password"
+                name="confirmPassword"
+                placeholder="Re-type your password..."
+                component={Input}
+              />
+              <Button
+                disabled={!isValid || isSubmitting}
+                loading={loading ? "In progress..." : null}
+                type="submit"
+              >
+                Sign up
+              </Button>
+              <MessageWrapper>
+                <Message error show={error}>
+                  {error}
+                </Message>
+              </MessageWrapper>
+            </StyledForm>
+          </FormWrapper>
+        )}
+      </Formik>
+    </Wrapper>
   );
 };
 

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
-import Headings from '../../components/UI/Headings/Heading';
-import { Container } from '../../hoc/layout/elements';
-import InputTodo from './InputTodo/InputTodo';
-import Todo from './Todo/Todo';
-import Loader from '../../components/UI/Loader/Loader';
-import Button from '../../components/UI/Forms/Button/Button';
+import Headings from "../../components/UI/Headings/Heading";
+import { Container } from "../../hoc/layout/elements";
+import InputTodo from "./InputTodo/InputTodo";
+import Todo from "./Todo/Todo";
+import Loader from "../../components/UI/Loader/Loader";
+import Button from "../../components/UI/Forms/Button/Button";
 
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { connect } from "react-redux";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -40,16 +40,21 @@ const Todos = ({ todos, requested, userId }) => {
   const [isAdding, setisAdding] = useState(false);
   let respons;
 
+  console.log(todos);
+
   if (!todos) {
     respons = (
       <ContentWrapper>
         <Loader isWhite />;
       </ContentWrapper>
     );
-  } else if (
-    (!todos[userId] && requested[`todos/${userId}`]) ||
-    todos[userId].todos.length === 0
-  ) {
+  } else if (todos[userId] === null) {
+    respons = (
+      <Headings color="white" bold size="h1">
+        Empty object
+      </Headings>
+    );
+  } else if (todos[userId].todos.length === 0) {
     respons = (
       <Headings color="white" bold size="h1">
         No todos to provide

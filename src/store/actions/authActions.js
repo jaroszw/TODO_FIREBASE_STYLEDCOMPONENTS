@@ -164,11 +164,10 @@ export const deleteProfile = () => async (
 
   try {
     await firestore.collection("users").doc(userId).delete();
+    await firestore.collection("todos").doc(userId).delete();
     await user.delete();
   } catch (err) {
     dispatch({ type: actions.PROFILE_DELETE_FAIL, payload: err.message });
     console.log(err);
   }
 };
-
-

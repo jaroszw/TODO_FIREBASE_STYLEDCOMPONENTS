@@ -26,7 +26,7 @@ export const store = createStore(
   initialState,
   composeEnhancers(
     applyMiddleware(
-      logger,
+      // logger,
       thunk.withExtraArgument({ getFirestore, getFirebase })
     ),
     reduxFirestore(firebase, config)

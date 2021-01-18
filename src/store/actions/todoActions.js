@@ -1,17 +1,15 @@
-import * as actions from './actionTypes';
+import * as actions from "./actionTypes";
 
 export const addTodo = (data) => async (
   dispatch,
   getState,
   { getFirestore }
 ) => {
-  console.log(data);
   dispatch({ type: actions.ADD_TODO_START });
   const firestore = getFirestore();
   const userId = getState().firebase.auth.uid;
-
   try {
-    const userRef = await firestore.collection('todos').doc(userId);
+    const userRef = await firestore.collection("todos").doc(userId);
     const snapShot = await userRef.get();
 
     const newTodo = {
@@ -53,11 +51,11 @@ export const deleteTodo = (id) => async (
   const userId = getState().firebase.auth.uid;
 
   try {
-    const res = await firestore.collection('todos').doc(userId).get();
+    const res = await firestore.collection("todos").doc(userId).get();
 
     const prevTodos = res.data().todos;
     const newTodos = prevTodos.filter((todo) => todo.id !== id);
-    await firestore.collection('todos').doc(userId).update({
+    await firestore.collection("todos").doc(userId).update({
       todos: newTodos,
     });
 
@@ -79,7 +77,7 @@ export const edditTodo = (id, data) => async (
   dispatch({ type: actions.ADD_TODO_START });
   try {
     console.log(userId);
-    const res = await firestore.collection('todos').doc(userId).get();
+    const res = await firestore.collection("todos").doc(userId).get();
 
     const prevTodos = res.data().todos;
 
@@ -87,7 +85,7 @@ export const edditTodo = (id, data) => async (
     prevTodos[index].todo = data.todo;
 
     await firestore
-      .collection('todos')
+      .collection("todos")
       .doc(userId)
       .update({
         todos: [...prevTodos],

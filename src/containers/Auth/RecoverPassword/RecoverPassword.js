@@ -12,6 +12,16 @@ import Input from "../../../components/UI/Forms/Input/Input";
 import Button from "../../../components/UI/Forms/Button/Button";
 import Message from "../../../components/UI/Message/Message";
 
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 6rem);
+  background-color: var(--color-mainLight);
+  padding: 5rem 0;
+`;
+
 const MessageWrapper = styled.div`
   position: absolute;
   bottom: 0;
@@ -29,54 +39,56 @@ const RecoverPassword = ({ clean, error, loading, recoverPassword }) => {
   console.log(error);
 
   return (
-    <FormWrapper>
-      <Headings noMargin size="h1" color="white">
-        Recover your password
-      </Headings>
-      <Headings size="h4" bold color="white">
-        Type in your email to recover your password
-      </Headings>
-      <Formik
-        initialValues={{
-          email: "",
-        }}
-        validationSchema={recoverSchema}
-        onSubmit={async (values, { setSubmitting }) => {
-          await recoverPassword(values);
-          setSubmitting(false);
-        }}
-      >
-        {({ isValid, isSubmitting }) => {
-          return (
-            <StyledForm>
-              <Field
-                type="email"
-                name="email"
-                placeholder="Your email..."
-                component={Input}
-              />
-              <Button
-                disabled={!isValid || isSubmitting}
-                loading={loading ? "Sending to your email..." : null}
-                type="submit"
-              >
-                Reset
-              </Button>
-              <MessageWrapper>
-                <Message error show={error}>
-                  {error}
-                </Message>
-              </MessageWrapper>
-              <MessageWrapper>
-                <Message success show={error === false}>
-                  Password sent successfully!
-                </Message>
-              </MessageWrapper>
-            </StyledForm>
-          );
-        }}
-      </Formik>
-    </FormWrapper>
+    <Wrapper>
+      <FormWrapper>
+        <Headings noMargin size="h1" color="white">
+          Recover your password
+        </Headings>
+        <Headings size="h4" bold color="white">
+          Type in your email to recover your password
+        </Headings>
+        <Formik
+          initialValues={{
+            email: "",
+          }}
+          validationSchema={recoverSchema}
+          onSubmit={async (values, { setSubmitting }) => {
+            await recoverPassword(values);
+            setSubmitting(false);
+          }}
+        >
+          {({ isValid, isSubmitting }) => {
+            return (
+              <StyledForm>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Your email..."
+                  component={Input}
+                />
+                <Button
+                  disabled={!isValid || isSubmitting}
+                  loading={loading ? "Sending to your email..." : null}
+                  type="submit"
+                >
+                  Reset
+                </Button>
+                <MessageWrapper>
+                  <Message error show={error}>
+                    {error}
+                  </Message>
+                </MessageWrapper>
+                <MessageWrapper>
+                  <Message success show={error === false}>
+                    Password sent successfully!
+                  </Message>
+                </MessageWrapper>
+              </StyledForm>
+            );
+          }}
+        </Formik>
+      </FormWrapper>
+    </Wrapper>
   );
 };
 

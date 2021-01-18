@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import * as Yup from 'yup';
-import styled from 'styled-components';
-import * as actions from '../../../store/actions/authActions';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import * as Yup from "yup";
+import styled from "styled-components";
+import * as actions from "../../../store/actions/authActions";
 
-import { Formik, Field } from 'formik';
-import { FormWrapper, StyledForm } from '../../../hoc/layout/elements';
+import { Formik, Field } from "formik";
+import { FormWrapper, StyledForm } from "../../../hoc/layout/elements";
 
-import Message from '../../../components/UI/Message/Message';
-import Headings from '../../../components/UI/Headings/Heading';
-import Input from '../../../components/UI/Forms/Input/Input';
-import Button from '../../../components/UI/Forms/Button/Button';
-import Modal from '../../../components/UI/Modal/Modal';
+import Message from "../../../components/UI/Message/Message";
+import Headings from "../../../components/UI/Headings/Heading";
+import Input from "../../../components/UI/Forms/Input/Input";
+import Button from "../../../components/UI/Forms/Button/Button";
+import Modal from "../../../components/UI/Modal/Modal";
+
+const Wrapper = styled.div`
+  width: 100%;
+  align-self: flex-start;
+  height: 100%;
+  min-height: calc(100vh - 6rem);
+  background-color: var(--color-mainLight);
+  padding: 5rem 0;
+`;
 
 const MessageWrapper = styled.div`
   position: absolute;
@@ -43,19 +52,19 @@ const ButtonWrapper = styled.div`
 
 const ProfileSchema = Yup.object().shape({
   firstName: Yup.string()
-    .required('Your first name is required.')
-    .min(3, 'Too short.')
-    .max(25, 'Too long.'),
+    .required("Your first name is required.")
+    .min(3, "Too short.")
+    .max(25, "Too long."),
   lastName: Yup.string()
-    .required('Your last name is required.')
-    .min(3, 'Too short.')
-    .max(25, 'Too long.'),
+    .required("Your last name is required.")
+    .min(3, "Too short.")
+    .max(25, "Too long."),
   email: Yup.string()
-    .email('Invalid email.')
-    .required('The email is required.'),
-  password: Yup.string().min(6, 'The password is too short.'),
+    .email("Invalid email.")
+    .required("The email is required."),
+  password: Yup.string().min(6, "The password is too short."),
   confirmPassword: Yup.string().oneOf(
-    [Yup.ref('password'), null],
+    [Yup.ref("password"), null],
     `Pssword doesn't match`
   ),
 });
@@ -85,14 +94,14 @@ const Profile = ({
   if (!firebase.profile.isLoaded) return null;
 
   return (
-    <>
+    <Wrapper>
       <Formik
         initialValues={{
           firstName: firebase.profile.firstName,
           lastName: firebase.profile.lastName,
           email: firebase.auth.email,
-          password: '',
-          confirmPassword: '',
+          password: "",
+          confirmPassword: "",
         }}
         validationSchema={ProfileSchema}
         onSubmit={async (values, { setSubmitting }) => {
@@ -141,7 +150,7 @@ const Profile = ({
               />
               <Button
                 disabled={!isValid || isSubmitting}
-                loading={loading ? 'Edditing data...' : null}
+                loading={loading ? "Edditing data..." : null}
                 type="submit"
               >
                 Edit
@@ -157,7 +166,7 @@ const Profile = ({
                 </Message>
               </MessageWrapper>
               <DeleteWrapper
-                style={{ zIndex: '80' }}
+                style={{ zIndex: "80" }}
                 onClick={() => setModalOpened(true)}
               >
                 Delete my account
@@ -176,7 +185,7 @@ const Profile = ({
         <ButtonWrapper>
           <Button
             disabled={loadingDelete}
-            loading={loadingDelete ? 'Deleting...' : null}
+            loading={loadingDelete ? "Deleting..." : null}
             contain
             color="red"
             onClick={() => deleteUser()}
@@ -193,7 +202,7 @@ const Profile = ({
           </Message>
         </MessageWrapper>
       </Modal>
-    </>
+    </Wrapper>
   );
 };
 
